@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {Observable, BehaviorSubject} from "rxjs";
+import {Injectable, OnDestroy} from '@angular/core';
+import {Observable} from "rxjs/Observable";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Lesson} from "../shared/model/lesson";
 import {Http} from "@angular/http";
 
 @Injectable()
-export class LessonsPagerService {
-
+export class LessonsPagerService implements OnDestroy {
     private static readonly PAGE_SIZE = 2;
 
     private subject = new BehaviorSubject<Lesson[]>([]);
@@ -17,7 +17,7 @@ export class LessonsPagerService {
     private courseId: number;
 
 
-    constructor(private http:Http) {
+    constructor(private http: Http) {
         console.log('LessonsPagerService instance created ..');
     }
 
@@ -54,6 +54,11 @@ export class LessonsPagerService {
                 lessons => this.subject.next(lessons)
             );
     }
+
+    ngOnDestroy(): void {
+        console.log('LessonsPagerService instance destroyed ..');
+    }
+
 
 }
 

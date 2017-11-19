@@ -1,5 +1,5 @@
 import {Component, OnInit, Input, OnDestroy} from '@angular/core';
-import {Observable} from "rxjs";
+import {Observable} from "rxjs/Observable";
 import {Lesson} from "../shared/model/lesson";
 import {CoursesHttpService} from "../services/courses-http.service";
 import {Course} from "../shared/model/course";
@@ -18,9 +18,10 @@ export class CourseComponent implements OnInit, OnDestroy {
 
     course$: Observable<Course>;
     lessons$: Observable<Lesson[]>;
+    detail$: Observable<Lesson>;
 
     constructor(private coursesService: CoursesHttpService,
-                private lessonsPager:LessonsPagerService) {
+                private lessonsPager: LessonsPagerService) {
 
     }
 
@@ -39,8 +40,18 @@ export class CourseComponent implements OnInit, OnDestroy {
         this.lessonsPager.next();
     }
 
+    selectDetail(lesson: Lesson) {
+        this.detail$ = this.coursesService.findLessonDetailById(lesson.url);
+            // .map( ({ description, seqNo, duration }) => { return {description, seqNo, duration}; });
+    }
+
+    backToMaster() {
+        console.log(`Back to Master ...`);
+        this.detail$ = undefined;
+    }
+
     ngOnDestroy() {
-        console.log('destroying CourseComponent ...');
+        console.log('CourseComponent: OnDestroy ...');
     }
 
 }

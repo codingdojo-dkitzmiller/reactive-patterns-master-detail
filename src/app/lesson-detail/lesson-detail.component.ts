@@ -1,19 +1,24 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, OnDestroy} from '@angular/core';
 import {Lesson} from "../shared/model/lesson";
 
 @Component({
-  selector: 'lesson-detail',
-  templateUrl: './lesson-detail.component.html',
-  styleUrls: ['./lesson-detail.component.css']
+    selector: 'lesson-detail',
+    templateUrl: './lesson-detail.component.html',
+    styleUrls: ['./lesson-detail.component.css']
 })
-export class LessonDetailComponent implements OnInit {
+export class LessonDetailComponent implements OnInit, OnDestroy {
+    @Input()
+    lesson: Lesson;
 
-  @Input()
-  lesson: Lesson;
+    constructor() {
+        console.log(`LessonDetailComponent: Constructed`)
+    }
 
-  constructor() { }
+    ngOnInit() {
+    }
 
-  ngOnInit() {
-  }
+    ngOnDestroy(): void {
+        console.log(`LessonDetailComponent: OnDestroy`)
+    }
 
 }
